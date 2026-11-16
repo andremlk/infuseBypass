@@ -1,0 +1,22 @@
+name: Build InfuseBypass
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build for tvOS
+        run: |
+          xcodebuild -project InfuseBypass.xcodeproj -scheme InfuseBypass -sdk appletvos -configuration Release
+
+      - name: Upload Framework Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: InfuseBypass-framework
+          path: build/Release-appletvos/InfuseBypass.framework
